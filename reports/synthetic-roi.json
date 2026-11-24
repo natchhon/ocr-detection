@@ -1,0 +1,86 @@
+{
+  "dataset": {
+    "kind": "authorized_local_manifest",
+    "split": "tuning",
+    "manifest_sha256": "38fcf7904f98e445e2076ecf7e00e0f00ccb3ccff7f8b2de17b852029afffef4"
+  },
+  "unique_images": 1,
+  "runs": 5,
+  "warmup_runs": 1,
+  "provider": "chakkhu",
+  "beam": 4,
+  "batch_size": 16,
+  "cpu_threads_requested": null,
+  "device": "cpu",
+  "text_detector": "roi",
+  "model_load_ms": 670.7881430011184,
+  "model_sha256": {
+    "model.safetensors": "0783a6438694dc1c114bdbf006849fc110d46f40dbddb408a485be8a0f559309"
+  },
+  "python": "3.10.12",
+  "packages": {
+    "pillow": "12.3.0",
+    "numpy": "2.2.6",
+    "opencv-python-headless": "5.1.0.95",
+    "torch": "2.14.1+cpu"
+  },
+  "results": [
+    {
+      "processor": "original",
+      "latency": {
+        "mean_ms": 492.914,
+        "min_ms": 476.62,
+        "max_ms": 500.95,
+        "p50_ms": 495.31,
+        "p95_ms": null,
+        "p99_ms": null,
+        "timing_samples": 5
+      },
+      "stage_mean_ms": {
+        "card_detection": 5.2874,
+        "perspective_correction": 2.5948,
+        "roi_extraction": 0.1588,
+        "text_detection": 0.0,
+        "preprocessing": 0.7598,
+        "crop_preprocessing": 0.1296,
+        "recognition_queue": 0.0028,
+        "recognition": 483.7688,
+        "parsing": 0.013,
+        "total": 492.91519999999997
+      },
+      "accuracy": {
+        "cer": 0.02631578947368421,
+        "wer_whitespace": 0.16666666666666666,
+        "character_errors": 1,
+        "reference_characters": 38,
+        "word_errors": 1,
+        "reference_whitespace_tokens": 6,
+        "field_exact_match": 0.6666666666666666,
+        "fields": {
+          "school_name_en": {
+            "exact_match": 1.0,
+            "samples": 1
+          },
+          "student_id": {
+            "exact_match": 0.0,
+            "samples": 1
+          },
+          "academic_year": {
+            "exact_match": 1.0,
+            "samples": 1
+          }
+        },
+        "samples": 1
+      },
+      "process_peak_rss_mb": 637.31640625
+    }
+  ],
+  "limitations": [
+    "CER uses NFC Unicode code points, not Khmer grapheme clusters.",
+    "WER uses whitespace tokens; Khmer words without spaces are not segmented.",
+    "P50 needs 5 timings; P95 needs 100; P99 needs 1000. Repeats are not independent documents.",
+    "RSS is cumulative process high-water memory, not isolated per-variant memory.",
+    "Inference timings exclude upload/decode and startup; warmup is separate.",
+    "Synthetic English results cannot establish Khmer or real-card accuracy."
+  ]
+}

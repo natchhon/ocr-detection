@@ -1,144 +1,74 @@
-import sys
-import tempfile
-
+import inspect
 from pathlib import Path
-from threading import Lock
-from time import perf_counter
 
 from PIL import Image
 
-from app.domain.ports.ocr_provider import OCRProvider
 from app.domain.ports.text_detector import TextDetector
-
-from app.domain.entities.ocr_result import (
-    OCRBlock,
-    OCRResult
-)
+from app.infrastructure.ocr.providers.line_provider import LineOCRProvider
+from app.infrastructure.ocr.providers.local_module import load_local_module
 
 
-class ChakkhuProvider(OCRProvider):
-
+class ChakkhuProvider(LineOCRProvider):
     def __init__(
         self,
         model_path: Path,
         device: str,
         detector: TextDetector,
-        min_confidence: float = 0.80
+        min_confidence: float = 0.8,
+        **options,
     ):
-
+        super().__init__(detector, min_confidence, **options)
         self.model_path = model_path.resolve()
         self.device = device
-        self.detector = detector
-        self.min_confidence = min_confidence
-
-        self.model = None
-        self.tokenizer = None
-        self.read = None
-
-        self.lock = Lock()
+        self.model = self.tokenizer = self.read = None
 
     @property
     def name(self) -> str:
         return "chakkhu"
 
     def load(self) -> None:
+        with self.lock:
+            if self.model is not None:
+                return
+            for name in (
+                "chakkhu/__init__.py",
+                "model.safetensors",
+                "config.json",
+                "tokenizer.json",
+            ):
+                if not (self.model_path / name).is_file():
+                    raise FileNotFoundError(f"Missing local Chakkhu file: {name}")
+            import torch
 
-        if not self.model_path.exists():
-            raise FileNotFoundError(
-                f"Model directory not found: {self.model_path}"
+            if self.cpu_threads is not None:
+                torch.set_num_threads(self.cpu_threads)
+            module = load_local_module(
+                "_id_card_chakkhu", self.model_path / "chakkhu/__init__.py", package=True
             )
+            required = {"beam", "lam", "batch", "confidence"}
+            if not required.issubset(inspect.signature(module.read).parameters):
+                raise RuntimeError(
+                    "Unsupported Chakkhu read API; use the documented pinned revision"
+                )
+            model, tokenizer = module.load(str(self.model_path), device=self.device)
+            self.model, self.tokenizer, self.read = model, tokenizer, module.read
 
-        if str(self.model_path) not in sys.path:
-            sys.path.insert(0, str(self.model_path))
-
-        from chakkhu import load, read
-
-        self.read = read
-
-        self.model, self.tokenizer = load(
-            str(self.model_path),
-            device=self.device
-        )
-
-    def recognize(
-        self,
-        image: Image.Image
-    ) -> OCRResult:
-
+    def _predict(self, images: list[Image.Image]) -> list:
         if self.model is None or self.read is None:
             raise RuntimeError("Chakkhu model is not loaded")
+        import torch
 
-        start = perf_counter()
-
-        regions = self.detector.detect(image)
-
-        blocks = []
-
-        if regions:
-
-            with tempfile.TemporaryDirectory() as tmp:
-
-                paths = []
-
-                for index, region in enumerate(regions):
-
-                    path = Path(tmp) / f"{index}.png"
-
-                    region.image.save(path)
-
-                    paths.append(str(path))
-
-                with self.lock:
-
-                    predictions = self.read(
-                        self.model,
-                        self.tokenizer,
-                        paths,
-                        confidence=True
-                    )
-
-                if len(predictions) != len(regions):
-                    raise RuntimeError(
-                        "OCR result count mismatch"
-                    )
-
-                for region, prediction in zip(
-                    regions, predictions
-                ):
-
-                    text, confidence = prediction
-
-                    text = text.strip()
-                    confidence = float(confidence)
-
-                    # Ignore empty text
-                    if not text:
-                        continue
-
-                    # Ignore low-confidence results
-                    if confidence < self.min_confidence:
-                        continue
-
-                    blocks.append(
-                        OCRBlock(
-                            text=text,
-                            confidence=confidence,
-                            bbox=region.bbox
-                        )
-                    )
-
-        return OCRResult(
-            provider=self.name,
-            blocks=blocks,
-            processing_time_ms=(
-                perf_counter() - start
-            ) * 1000
-        )
+        with torch.inference_mode():
+            return self.read(
+                self.model,
+                self.tokenizer,
+                images,
+                confidence=True,
+                batch=self.batch_size,
+                beam=self.beam,
+                lam=self.ctc_weight,
+            )
 
     def close(self) -> None:
-
         with self.lock:
-
-            self.model = None
-            self.tokenizer = None
-            self.read = None
+            self.model = self.tokenizer = self.read = None

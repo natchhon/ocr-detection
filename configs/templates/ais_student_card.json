@@ -1,0 +1,110 @@
+{
+  "template_id": "ais_student_card_v1",
+  "calibrated": true,
+  "orientation": "portrait",
+  "aspect_ratio_range": [
+    0.56,
+    0.72
+  ],
+  "regions": {
+    "school_name_kh": {
+      "bbox": [
+        0.30899,
+        0.13705,
+        0.95506,
+        0.18744
+      ],
+      "rotation": 0,
+      "language": "khmer",
+      "required": false
+    },
+    "school_name_en": {
+      "bbox": [
+        0.43961,
+        0.18656,
+        0.82163,
+        0.2122
+      ],
+      "rotation": 0,
+      "language": "english",
+      "required": false
+    },
+    "education_level": {
+      "bbox": [
+        0.16854,
+        0.37135,
+        0.27528,
+        0.56676
+      ],
+      "rotation": -90,
+      "language": "khmer",
+      "required": false
+    },
+    "name_kh": {
+      "bbox": [
+        0.31601,
+        0.68258,
+        0.69522,
+        0.75685
+      ],
+      "rotation": 0,
+      "language": "khmer",
+      "required": true
+    },
+    "name_en": {
+      "bbox": [
+        0.28371,
+        0.75774,
+        0.71348,
+        0.80637
+      ],
+      "rotation": 0,
+      "language": "english",
+      "required": true
+    },
+    "student_id": {
+      "bbox": [
+        0.38904,
+        0.81432,
+        0.69382,
+        0.85853
+      ],
+      "rotation": 0,
+      "language": "english",
+      "required": true
+    },
+    "campus": {
+      "bbox": [
+        0.33708,
+        0.87356,
+        0.66011,
+        0.93103
+      ],
+      "rotation": 0,
+      "language": "khmer",
+      "required": false
+    },
+    "card_number": {
+      "bbox": [
+        0.2823,
+        0.93634,
+        0.7177,
+        0.98055
+      ],
+      "rotation": 0,
+      "language": "english",
+      "required": false
+    },
+    "academic_year": {
+      "bbox": [
+        0.74719,
+        0.8992,
+        0.93258,
+        0.92573
+      ],
+      "rotation": 0,
+      "language": "english",
+      "required": false
+    }
+  }
+}

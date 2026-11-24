@@ -1,0 +1,73 @@
+{
+  "dataset": {
+    "kind": "synthetic_english_smoke_only",
+    "split": "synthetic",
+    "image_pixel_sha256": "3d977b31cd9754adfc5b00898fd6d3394616d626288c537eca2bcfad849e4ca7"
+  },
+  "unique_images": 1,
+  "runs": 5,
+  "warmup_runs": 1,
+  "provider": "chakkhu",
+  "beam": 0,
+  "batch_size": 16,
+  "cpu_threads_requested": 4,
+  "device": "cpu",
+  "text_detector": "opencv",
+  "model_load_ms": 711.9040120014688,
+  "model_sha256": {
+    "model.safetensors": "0783a6438694dc1c114bdbf006849fc110d46f40dbddb408a485be8a0f559309"
+  },
+  "python": "3.10.12",
+  "packages": {
+    "pillow": "12.3.0",
+    "numpy": "2.2.6",
+    "opencv-python-headless": "5.1.0.95",
+    "torch": "2.14.1+cpu"
+  },
+  "results": [
+    {
+      "processor": "original",
+      "latency": {
+        "mean_ms": 450.282,
+        "min_ms": 432.56,
+        "max_ms": 498.74,
+        "p50_ms": 439.6,
+        "p95_ms": null,
+        "p99_ms": null,
+        "timing_samples": 5
+      },
+      "stage_mean_ms": {
+        "card_detection": 0.0,
+        "perspective_correction": 0.0,
+        "roi_extraction": 0.0,
+        "text_detection": 3.35,
+        "preprocessing": 0.4736,
+        "crop_preprocessing": 0.1042,
+        "recognition_queue": 0.0018,
+        "recognition": 446.313,
+        "parsing": 0.003,
+        "total": 450.281
+      },
+      "accuracy": {
+        "cer": 0.02631578947368421,
+        "wer_whitespace": 0.0,
+        "character_errors": 1,
+        "reference_characters": 38,
+        "word_errors": 0,
+        "reference_whitespace_tokens": 6,
+        "field_exact_match": null,
+        "fields": {},
+        "samples": 1
+      },
+      "process_peak_rss_mb": 595.20703125
+    }
+  ],
+  "limitations": [
+    "CER uses NFC Unicode code points, not Khmer grapheme clusters.",
+    "WER uses whitespace tokens; Khmer words without spaces are not segmented.",
+    "P50 needs 5 timings; P95 needs 100; P99 needs 1000. Repeats are not independent documents.",
+    "RSS is cumulative process high-water memory, not isolated per-variant memory.",
+    "Inference timings exclude upload/decode and startup; warmup is separate.",
+    "Synthetic English results cannot establish Khmer or real-card accuracy."
+  ]
+}

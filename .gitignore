@@ -1,2 +1,12 @@
 .env
 .venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+# Sensitive local inputs and explicitly exported debug artifacts.
+private-data/
+artifacts/
+samples/
+# Downloaded optional model weights/source are not application source.
+models/chakkhu-onnx/

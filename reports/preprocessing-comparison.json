@@ -1,0 +1,181 @@
+{
+  "dataset": {
+    "kind": "synthetic_english_smoke_only",
+    "split": "synthetic",
+    "image_pixel_sha256": "3d977b31cd9754adfc5b00898fd6d3394616d626288c537eca2bcfad849e4ca7"
+  },
+  "unique_images": 1,
+  "runs": 5,
+  "warmup_runs": 1,
+  "provider": "chakkhu",
+  "beam": 4,
+  "batch_size": 16,
+  "cpu_threads_requested": null,
+  "device": "cpu",
+  "text_detector": "opencv",
+  "model_load_ms": 703.4661899997445,
+  "model_sha256": {
+    "model.safetensors": "0783a6438694dc1c114bdbf006849fc110d46f40dbddb408a485be8a0f559309"
+  },
+  "python": "3.10.12",
+  "packages": {
+    "pillow": "12.3.0",
+    "numpy": "2.2.6",
+    "opencv-python-headless": "5.1.0.95",
+    "torch": "2.14.1+cpu"
+  },
+  "results": [
+    {
+      "processor": "original",
+      "latency": {
+        "mean_ms": 703.976,
+        "min_ms": 653.79,
+        "max_ms": 767.31,
+        "p50_ms": 701.24,
+        "p95_ms": null,
+        "p99_ms": null,
+        "timing_samples": 5
+      },
+      "stage_mean_ms": {
+        "card_detection": 0.0,
+        "perspective_correction": 0.0,
+        "roi_extraction": 0.0,
+        "text_detection": 2.6282,
+        "preprocessing": 0.4876,
+        "crop_preprocessing": 0.10200000000000001,
+        "recognition_queue": 0.0018,
+        "recognition": 700.7182,
+        "parsing": 0.0026,
+        "total": 703.9771999999999
+      },
+      "accuracy": {
+        "cer": 0.02631578947368421,
+        "wer_whitespace": 0.0,
+        "character_errors": 1,
+        "reference_characters": 38,
+        "word_errors": 0,
+        "reference_whitespace_tokens": 6,
+        "field_exact_match": null,
+        "fields": {},
+        "samples": 1
+      },
+      "process_peak_rss_mb": 667.015625
+    },
+    {
+      "processor": "grayscale",
+      "latency": {
+        "mean_ms": 691.234,
+        "min_ms": 683.61,
+        "max_ms": 697.67,
+        "p50_ms": 693.04,
+        "p95_ms": null,
+        "p99_ms": null,
+        "timing_samples": 5
+      },
+      "stage_mean_ms": {
+        "card_detection": 0.0,
+        "perspective_correction": 0.0,
+        "roi_extraction": 0.0,
+        "text_detection": 2.6318,
+        "preprocessing": 1.1616,
+        "crop_preprocessing": 0.1074,
+        "recognition_queue": 0.0012000000000000001,
+        "recognition": 687.28,
+        "parsing": 0.0034000000000000002,
+        "total": 691.2324
+      },
+      "accuracy": {
+        "cer": 0.02631578947368421,
+        "wer_whitespace": 0.0,
+        "character_errors": 1,
+        "reference_characters": 38,
+        "word_errors": 0,
+        "reference_whitespace_tokens": 6,
+        "field_exact_match": null,
+        "fields": {},
+        "samples": 1
+      },
+      "process_peak_rss_mb": 667.015625
+    },
+    {
+      "processor": "clahe",
+      "latency": {
+        "mean_ms": 751.904,
+        "min_ms": 687.17,
+        "max_ms": 794.33,
+        "p50_ms": 771.19,
+        "p95_ms": null,
+        "p99_ms": null,
+        "timing_samples": 5
+      },
+      "stage_mean_ms": {
+        "card_detection": 0.0,
+        "perspective_correction": 0.0,
+        "roi_extraction": 0.0,
+        "text_detection": 3.5884,
+        "preprocessing": 2.5786,
+        "crop_preprocessing": 0.1356,
+        "recognition_queue": 0.002,
+        "recognition": 745.5432,
+        "parsing": 0.0034000000000000002,
+        "total": 751.9042
+      },
+      "accuracy": {
+        "cer": 0.02631578947368421,
+        "wer_whitespace": 0.0,
+        "character_errors": 1,
+        "reference_characters": 38,
+        "word_errors": 0,
+        "reference_whitespace_tokens": 6,
+        "field_exact_match": null,
+        "fields": {},
+        "samples": 1
+      },
+      "process_peak_rss_mb": 675.578125
+    },
+    {
+      "processor": "khmer",
+      "latency": {
+        "mean_ms": 779.246,
+        "min_ms": 733.14,
+        "max_ms": 872.23,
+        "p50_ms": 767.48,
+        "p95_ms": null,
+        "p99_ms": null,
+        "timing_samples": 5
+      },
+      "stage_mean_ms": {
+        "card_detection": 0.0,
+        "perspective_correction": 0.0,
+        "roi_extraction": 0.0,
+        "text_detection": 4.0982,
+        "preprocessing": 5.4408,
+        "crop_preprocessing": 0.1416,
+        "recognition_queue": 0.0032,
+        "recognition": 769.5044,
+        "parsing": 0.0036,
+        "total": 779.2466
+      },
+      "accuracy": {
+        "cer": 0.02631578947368421,
+        "wer_whitespace": 0.0,
+        "character_errors": 1,
+        "reference_characters": 38,
+        "word_errors": 0,
+        "reference_whitespace_tokens": 6,
+        "field_exact_match": null,
+        "fields": {},
+        "samples": 1
+      },
+      "process_peak_rss_mb": 676.56640625
+    }
+  ],
+  "limitations": [
+    "CER uses NFC Unicode code points, not Khmer grapheme clusters.",
+    "WER uses whitespace tokens; Khmer words without spaces are not segmented.",
+    "P50 needs 5 timings; P95 needs 100; P99 needs 1000. Repeats are not independent documents.",
+    "RSS is cumulative process high-water memory, not isolated per-variant memory.",
+    "Inference timings exclude upload/decode and startup; warmup is separate.",
+    "Synthetic English results cannot establish Khmer or real-card accuracy."
+  ]
+}

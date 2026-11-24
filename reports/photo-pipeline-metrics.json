@@ -1,0 +1,77 @@
+{
+  "samples": [
+    {
+      "sample": "aii_id_card.jpg",
+      "sha256": "20eea622929a0816feb7bf5e5be61066f0bb8956c16d53d9deee053295bec238",
+      "blocks": 12,
+      "total_ms": 31293.78,
+      "template": null,
+      "detector": "photo",
+      "processed_size": [
+        960,
+        1280
+      ]
+    },
+    {
+      "sample": "ais_card_v2.jpg",
+      "sha256": "24d799a6ffb7476d6d9608fa13d06598c1edaee9156e2a54840e5cf50d987b21",
+      "blocks": 12,
+      "total_ms": 27667.92,
+      "template": null,
+      "detector": "photo",
+      "processed_size": [
+        877,
+        1280
+      ]
+    },
+    {
+      "sample": "ais_card_v3.jpg",
+      "sha256": "09a8520b611a836a30612661725646ab8fbc80854681d50088fd40ad3e02c20f",
+      "blocks": 11,
+      "total_ms": 18937.15,
+      "template": null,
+      "detector": "photo",
+      "processed_size": [
+        960,
+        1280
+      ]
+    },
+    {
+      "sample": "ais_card_v4.jpg",
+      "sha256": "971b9d8370b45ced62b92edd410c5bd3588ec8473ced3613aeb6056bbbdb0b7a",
+      "blocks": 12,
+      "total_ms": 39992.95,
+      "template": null,
+      "detector": "photo",
+      "processed_size": [
+        960,
+        1280
+      ]
+    },
+    {
+      "sample": "ais_id_card.jpg",
+      "sha256": "d4b6a44c0ae5d13df8a590559023ee2a632b4085d4a9cb2636f8e08ea89b472b",
+      "blocks": 12,
+      "total_ms": 39155.37,
+      "template": null,
+      "detector": "photo",
+      "processed_size": [
+        960,
+        1280
+      ]
+    }
+  ],
+  "sample_run_cpu_threads": 2,
+  "api_check": {
+    "status": 200,
+    "sample": "ais_card_v2.jpg",
+    "blocks": 12,
+    "total_ms": 29886.77,
+    "cpu_threads": 10
+  },
+  "limitations": [
+    "Single local runs; some concurrent checks ran during measurement.",
+    "No complete independently verified transcription set; no CER or accuracy percentage claimed.",
+    "Existing local Chakkhu weights unchanged; Photo mode only, not hosted Auto/Document parity."
+  ]
+}

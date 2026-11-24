@@ -1,0 +1,51 @@
+{
+  "scope": "single authorized tuning sample; not a held-out evaluation",
+  "dimensions": [
+    960,
+    1280
+  ],
+  "input_sha256": "d4b6a44c0ae5d13df8a590559023ee2a632b4085d4a9cb2636f8e08ea89b472b",
+  "template": "ais_student_card_v1",
+  "blocks": 9,
+  "verified_field_count": 7,
+  "field_exact_matches": {
+    "school_name_kh": true,
+    "school_name_en": false,
+    "education_level": true,
+    "name_en": true,
+    "student_id": true,
+    "campus": true,
+    "academic_year": true
+  },
+  "unverified_fields": [
+    "name_kh",
+    "card_number"
+  ],
+  "mean_ms": 2008.65,
+  "runs_ms": [
+    1921.26,
+    2034.44,
+    2070.25
+  ],
+  "warmup_runs": 1,
+  "requires_review_fields": [
+    "school_name_en",
+    "name_kh",
+    "name_en",
+    "student_id",
+    "card_number",
+    "academic_year"
+  ],
+  "last_timings_ms": {
+    "card_detection": 67.3,
+    "perspective_correction": 2.984,
+    "roi_extraction": 0.199,
+    "text_detection": 0.0,
+    "preprocessing": 1.464,
+    "crop_preprocessing": 0.188,
+    "recognition_queue": 0.002,
+    "recognition": 1997.632,
+    "parsing": 0.059,
+    "total": 2070.246
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "kind": "synthetic smoke benchmark; not student-card accuracy",
+  "image_sha256": "cb7c8a6cb9009e24927375fe27d5e95ece3274c08200756a6f176388bddcde0e",
+  "dimensions": [
+    800,
+    500
+  ],
+  "load_ms": 788.3090329996776,
+  "runs": [
+    {
+      "ms": 886.0569659991597,
+      "text": "SYNTHETIC SCHOOL\nTEST00001\n2026 -\n2027",
+      "blocks": 4,
+      "confidence": 0.996
+    },
+    {
+      "ms": 649.0971149978577,
+      "text": "SYNTHETIC SCHOOL\nTEST00001\n2026 -\n2027",
+      "blocks": 4,
+      "confidence": 0.996
+    },
+    {
+      "ms": 666.3236979984504,
+      "text": "SYNTHETIC SCHOOL\nTEST00001\n2026 -\n2027",
+      "blocks": 4,
+      "confidence": 0.996
+    }
+  ]
+}
