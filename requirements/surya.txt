@@ -1,0 +1,4 @@
+-r base.txt
+
+surya-ocr
+beautifulsoup4

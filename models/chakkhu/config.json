@@ -1,0 +1,14 @@
+{
+ "vocab": 3402,
+ "height": 64,
+ "d": 320,
+ "heads": 8,
+ "ffn": 1280,
+ "enc_layers": 6,
+ "dec_layers": 3,
+ "max_cols": 512,
+ "max_len": 256,
+ "dropout": 0.1,
+ "ctc_weight": 0.3,
+ "smooth": 0.05
+}

@@ -1,0 +1,6 @@
+-r base.txt
+
+torch
+safetensors
+huggingface_hub
+rapidfuzz
