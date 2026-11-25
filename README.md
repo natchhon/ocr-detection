@@ -291,7 +291,10 @@ Pinned downloads:
   at `8d7373487dfb56e4f13ba26cea31e1f858bd6ddd`.
 
 Their published code/model licenses state Apache-2.0; retain attribution to
-“Chakkhu by Ing Muyleang” and review licensing for your deployment. Local model
+**Ing Muyleang**, creator of the Chakkhu model and demo, as “Chakkhu by Ing
+Muyleang.” If you redistribute the model, code, or adapted Photo-mode components,
+retain applicable Apache-2.0 notices and include [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
+The upstream model card also requests citation of the model. Local model
 Python is executable trusted code: deploy only reviewed, immutable directories.
 Startup validates required files and supported API parameters, but does not
 cryptographically attest arbitrary replacement files. Benchmark reports record
