@@ -12,6 +12,7 @@ from app.infrastructure.ocr.factory import OCRProviderFactory
 from app.infrastructure.ocr.providers.chakkhu import ChakkhuProvider
 from app.infrastructure.ocr.providers.chakkhu_onnx import ChakkhuONNXProvider
 from app.infrastructure.ocr.providers.line_provider import LineOCRProvider
+from app.infrastructure.ocr.providers.netra_onnx import NetraONNXProvider
 
 
 class Detector(TextDetector):
@@ -73,7 +74,7 @@ def test_provider_serializes_inference():
 
 
 @pytest.mark.parametrize(
-    "name,expected", [("chakkhu", ChakkhuProvider), ("chakkhu_onnx", ChakkhuONNXProvider)]
+    "name,expected", [("chakkhu", ChakkhuProvider), ("chakkhu_onnx", ChakkhuONNXProvider), ("netra_onnx", NetraONNXProvider)]
 )
 def test_factory_and_missing_models_fail_locally(name, expected, tmp_path):
     provider = OCRProviderFactory.create(

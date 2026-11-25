@@ -1,7 +1,6 @@
 # ID Card OCR
 
-Local FastAPI service with interchangeable Chakkhu PyTorch and optional Chakkhu ONNX
-INT8 providers. `/health`, `/docs`, and `POST /api/v1/id-card/detect` remain available.
+Local FastAPI service with interchangeable Chakkhu PyTorch, Chakkhu ONNX INT8, and optional Netra ONNX providers. `/health`, `/docs`, and `POST /api/v1/id-card/detect` remain available.
 The default pipeline preserves original RGB input, detects text with local PP-OCRv4,
 and reads multiple crop variants with the existing Chakkhu PyTorch model. All model inference runs locally.
 
@@ -25,6 +24,13 @@ INT8 model into `models/chakkhu-onnx`. The download command refuses to overwrite
 nonempty model directory. For an isolated download use
 `python -m scripts.download_model --provider chakkhu --model-dir /private/new-models`.
 Set `OCR_PROVIDER=chakkhu_onnx` to select it. Only the selected provider is loaded.
+For Netra, install the compatible CPU runtime with `make install PROVIDER=netra_onnx`,
+then run `make download-model PROVIDER=netra_onnx`. This downloads the pinned 41 MB
+Netra recognition bundle into `models/netra-onnx/recognition`. Your `.env` already
+selects Netra with `OCR_PROVIDER=netra_onnx`. Restart the service after installing
+the runtime and model. Netra supplies line recognition while this service retains
+its configured text detector. The recognition model is MIT licensed, though its
+training data includes a research-only dataset, so check usage terms before commercial deployment.
 Surya and PaddleOCR recognition providers are not implemented; PP-OCRv4 is used
 only for text detection, while Chakkhu reads the crops. Unknown providers fail validation.
 

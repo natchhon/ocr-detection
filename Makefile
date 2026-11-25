@@ -4,7 +4,6 @@ HOST ?= localhost
 PORT ?= 8000
 
 .PHONY: run dev install test
-
 run:
 	$(PYTHON) -m uvicorn app.main:app --host $(HOST) --port $(PORT) --workers 1
 

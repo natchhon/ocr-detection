@@ -1,0 +1,50 @@
+{
+  "format": "netra-bundle",
+  "format_version": 1,
+  "name": "netra-ocr-recognition",
+  "version": "1.0.0",
+  "task": "text-recognition",
+  "graphs": {
+    "encoder": "encoder.onnx",
+    "decoder_step": "decoder_step.onnx"
+  },
+  "components": {
+    "preprocess": {
+      "type": "line-chunker",
+      "height": 48,
+      "chunk_width": 100,
+      "chunk_overlap": 16,
+      "min_width": 50,
+      "pad_value": 1.0,
+      "mean": 0.5,
+      "std": 0.5
+    },
+    "decoder": {
+      "type": "kv-cache",
+      "layers": 2,
+      "heads": 8,
+      "head_dim": 48,
+      "max_len": 512
+    },
+    "tokenizer": {
+      "type": "vocab",
+      "vocab": "vocab.json"
+    },
+    "postprocess": [
+      {
+        "type": "ocr-text-cleanup",
+        "max_repeat": 3
+      }
+    ]
+  },
+  "metadata": {
+    "source_checkpoint": "khmerocr_cluster_ar.pth",
+    "exported_by": "netra-ocr",
+    "license": "MIT"
+  },
+  "files": {
+    "decoder_step.onnx": "adf53d37dc558f562d2a1eddcde723d36eda2c2d922a6fe3c9864bbe51e12647",
+    "encoder.onnx": "3e6c1b4984cdaf7578d9f591e1c3117df3b90c2a04fb2a18f274b19e4888c475",
+    "vocab.json": "d55b8578e66dd4069f3abdaf01d0993f8526587dbebec78dcbcd15c514a6268b"
+  }
+}

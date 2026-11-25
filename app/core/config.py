@@ -11,7 +11,7 @@ class Settings(BaseSettings):
     APP_NAME: str = "ID Card OCR Service"
     APP_VERSION: str = "1.1.0"
     APP_ENV: str = "development"
-    OCR_PROVIDER: Literal["chakkhu", "chakkhu_onnx"] = "chakkhu"
+    OCR_PROVIDER: Literal["chakkhu", "chakkhu_onnx", "netra_onnx"] = "chakkhu"
     OCR_DEVICE: Literal["cpu", "cuda", "mps"] = "cpu"
     MODEL_DIR: Path = Path("models")
     OCR_MIN_CONFIDENCE: float = Field(default=0.80, ge=0, le=1)
@@ -53,6 +53,8 @@ class Settings(BaseSettings):
             raise ValueError("DOCUMENT_TEMPLATE requires TEXT_DETECTOR=roi")
         if self.OCR_PROVIDER == "chakkhu_onnx" and self.OCR_DEVICE != "cpu":
             raise ValueError("The ONNX adapter supports CPU only")
+        if self.OCR_PROVIDER == "netra_onnx" and self.OCR_DEVICE != "cpu":
+            raise ValueError("The Netra ONNX adapter supports CPU only")
         for name, pattern in self.FIELD_PATTERNS.items():
             if name not in {"student_id", "card_number", "academic_year"}:
                 raise ValueError("Unsupported validation field")

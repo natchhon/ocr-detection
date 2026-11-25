@@ -24,4 +24,8 @@ class OCRProviderFactory:
             from app.infrastructure.ocr.providers.chakkhu_onnx import ChakkhuONNXProvider
 
             return ChakkhuONNXProvider(settings.MODEL_DIR / "chakkhu-onnx", **options)
+        if settings.OCR_PROVIDER == "netra_onnx":
+            from app.infrastructure.ocr.providers.netra_onnx import NetraONNXProvider
+
+            return NetraONNXProvider(settings.MODEL_DIR / "netra-onnx", **options)
         raise ValueError(f"Unsupported OCR provider: {settings.OCR_PROVIDER}")

@@ -29,6 +29,13 @@ MODELS = {
         ],
         "folder": "chakkhu-onnx",
     },
+    "netra_onnx": {
+        "repo": "Netra-Lab/Netra-OCR",
+        "revision": "0587daff6ff422cdd43573bb18ce5f6266255faa",
+        "patterns": ["recognition/*"],
+        "folder": "netra-onnx",
+        "subfolder": "recognition",
+    },
 }
 
 
@@ -51,7 +58,8 @@ def main():
         local_dir=target,
         allow_patterns=model["patterns"],
     )
-    (target / ".model_revision").write_text(model["revision"] + "\n", encoding="utf-8")
+    marker = target
+    (marker / ".model_revision").write_text(model["revision"] + "\n", encoding="utf-8")
     print("Pinned model downloaded. Review local model source and license before use.")
 
 
