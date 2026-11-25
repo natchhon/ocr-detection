@@ -34,6 +34,85 @@ from `opencv` to `photo`; infrastructure files were not changed. CPU thread coun
 installed reader's defaults. `OCR_BEAM=0` selects the supported CTC-only decoder.
 No general Khmer spelling checker is enabled for model inference.
 
+## Deploy on Ubuntu with systemd
+
+These instructions assume Ubuntu 22.04 or newer, an x86-64 CPU server, and a
+non-root Linux account that owns the cloned repository. Replace `/opt/id-card-ocr`
+and `deploy` with your actual clone path and username. The default PyTorch model
+is already tracked in the repository.
+
+```bash
+cd /opt/id-card-ocr
+sudo apt update
+sudo apt install -y python3-venv curl libgl1 libglib2.0-0 libgomp1 fonts-dejavu-core
+python3 -m venv .venv
+.venv/bin/python -m pip install --upgrade pip
+.venv/bin/python -m pip install torch --index-url https://download.pytorch.org/whl/cpu
+.venv/bin/python -m pip install -r requirements/chakkhu.txt
+.venv/bin/python -m pip check
+test -e .env || install -m 600 .env.example .env
+```
+
+Review `.env` before starting. Create `/etc/systemd/system/id-card-ocr.service`
+using `sudoedit`. `User=` must be the existing Linux account that owns the clone.
+Check it with `id deploy` after replacing `deploy` with your username. `217/USER`
+in the systemd journal means that systemd could not resolve the configured user.
+
+```ini
+[Unit]
+Description=ID Card OCR API
+
+[Service]
+Type=exec
+User=deploy
+WorkingDirectory=/opt/id-card-ocr
+Environment=APP_ENV=production
+ExecStart=/opt/id-card-ocr/.venv/bin/python -m uvicorn app.main:app --host 127.0.0.1 --port 8000 --workers 1
+Restart=on-failure
+RestartSec=5
+PrivateTmp=true
+NoNewPrivileges=true
+
+[Install]
+WantedBy=multi-user.target
+```
+
+Validate the paths and account, then start the service. If it is already restart-looping
+with `217/USER`, fix `User=` first and restart the service to clear the loop.
+
+```bash
+id deploy
+sudo systemd-analyze verify /etc/systemd/system/id-card-ocr.service
+sudo systemctl daemon-reload
+sudo systemctl reset-failed id-card-ocr
+sudo systemctl restart id-card-ocr
+sudo systemctl enable id-card-ocr
+curl -fsS --retry 10 --retry-connrefused http://127.0.0.1:8000/health
+sudo journalctl -u id-card-ocr -n 80 --no-pager
+```
+
+For a fictitious upload test, run this in the repository directory.
+
+```bash
+smoke_dir="$(mktemp -d)"
+.venv/bin/python -m scripts.create_synthetic_dataset "$smoke_dir/fixture"
+curl -fsS -F "file=@$smoke_dir/fixture/synthetic.png" \
+  http://127.0.0.1:8000/api/v1/id-card/detect
+```
+
+The API has no authentication. Keep Uvicorn bound to `127.0.0.1`, and connect
+temporarily from your workstation with an SSH tunnel. Keep the tunnel terminal open,
+then visit `http://127.0.0.1:8000/docs` locally.
+
+```bash
+ssh -N -o ExitOnForwardFailure=yes \
+  -L 127.0.0.1:8000:127.0.0.1:8000 deploy@YOUR_SERVER_IP
+```
+
+Stop and disable the service with `sudo systemctl disable --now id-card-ocr`.
+For application access over a network, put it behind an authenticated HTTPS reverse
+proxy with upload and concurrency limits, while keeping Uvicorn on loopback.
+
 ## Architecture and pipeline
 
 `app/domain/ports` defines image preprocessing, card detection, text detection, and
